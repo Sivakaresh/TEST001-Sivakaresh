@@ -1,21 +1,10 @@
 <h1>Read CSV file with Angular</h1>
-<!-- <input type="file" file-reader="fileContent" /> -->
-<!-- <input type="file" #fileImportInput name="CSV File Upload" 
-(change)="fileChangeListener($event)" accept=".csv">
 
-<div ng-if="fileContent" class="content">
-  {{title}}
-</div> -->
+<input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />
+   
+<button type="submit" class="btn btn-primary" (click)="createDataInitiate()">Save</button> 
 
-<!-- <div class="form-group">
-  <input type="file" (change)="onFileSelect($event.target)" name="myfile">
-</div> -->
-
-<!-- <input type="file" #fileImportInput name="File Upload" (change)="csvChanged($event)" id="txtFileUpload">
--->
-<h3>{{csv | json}}</h3>
-<input type="file" #csvReader name="Upload CSV" id="txtFileUpload" (change)="uploadListener($event)" accept=".csv" />    
-<button type="submit" class="btn btn-primary">Save</button> 
+ 
 <table class="minimalistBlack" *ngIf="records.length > 0">    
   <thead>    
     <tr>    

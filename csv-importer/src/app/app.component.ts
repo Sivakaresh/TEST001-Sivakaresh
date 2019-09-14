@@ -1,6 +1,9 @@
 import { Component, ViewChild  } from '@angular/core';
 import { Papa } from 'ngx-papaparse';
 import { CSVRecord } from './CSVModel';  
+import { Data } from 'src/app/data.model';
+import { DataService } from 'src/app/data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +14,51 @@ export class AppComponent {
   title = 'csv-importer';
   csvContent: string;
 
-  public csv={"first":"1","second":"2"};
+  // datasList:Data[];
+  // dataObj=new Data();
+
+  constructor(private papa: Papa) {
+    const csvData = '"Hello","World!","pen"';
+    
+    this.papa.parse(csvData,{
+        complete: (result) => {
+            console.log('Parsed: ', result);
+        }
+    });
+}
+onFileLoad(fileLoadedEvent) {
+  const textFromFileLoaded = fileLoadedEvent.target.result;              
+  this.csvContent = textFromFileLoaded;     
+  alert(this.csvContent);
+}
+
+onFileSelect(input: HTMLInputElement) {
+
+const files = input.files;
+var content = this.csvContent;    
+if (files && files.length) {
+
+console.log("Filename: " + files[0].name);
+console.log("Type: " + files[0].type);
+console.log("Size: " + files[0].size + " bytes");
+
+
+const fileToRead = files[0];
+
+const fileReader = new FileReader();
+fileReader.onload = this.onFileLoad;
+
+// fileReader.readAsText(fileToLoad, "UTF-8");
+}
+
+}
+// constructor(private router:Router,
+//   private dataService:DataService) { }
+// createDataInitiate(){
+//   return this.dataService.createData(this.dataObj).subscribe(data=>{
+//     console.log(data);
+//   })
+// }
 
   public records: any[] = [];  
   @ViewChild('csvReader',{static: true}) csvReader: any;  
@@ -81,61 +128,5 @@ export class AppComponent {
     this.records = [];  
   }  
 
-//   constructor(){}
-//     ngOnInit(){
-//     }
-//   onFileLoad(fileLoadedEvent) {
-//     const textFromFileLoaded = fileLoadedEvent.target.result;              
-//     this.csvContent = textFromFileLoaded;     
-    
-// }
-
-// onFileSelect(input: HTMLInputElement) {
-
-// const files = input.files;
-// var content = this.csvContent;    
-// if (files && files.length) {
-
-
-//   const fileToRead = files[0];
-
-//   const fileReader = new FileReader();
-//   fileReader.onload = this.onFileLoad;
-
-//   fileReader.readAsText(fileToRead, "UTF-8");
-// }
-
-// }
-
-//   public app = angular.module('plunker', []);
-
-// app.controller('MainCtrl', function($scope) {
-//   $scope.title = 'Read CSV file with Angular';
-// });
-
-// app.directive('fileReader', function() {
-//   return {
-//     scope: {
-//       fileReader:"="
-//     },
-//     link: function(scope, element) {
-//       $(element).on('change', function(changeEvent) {
-//         var files = changeEvent.target.files;
-//         if (files.length) {
-//           var r = new FileReader();
-//           r.onload = function(e) {
-//               var contents = e.target.result;
-//               scope.$apply(function () {
-//                 scope.fileReader = contents;
-//                 scope.testing = contents;
-//               });
-//           };
-          
-//           r.readAsText(files[0]);
-//         }
-//       });
-//     }
-//   };
-// });
 
 }
